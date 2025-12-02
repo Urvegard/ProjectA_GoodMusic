@@ -37,10 +37,10 @@ public class MusicGroupCUdto
 
     public void EnsureValidity()
     {
-        // RegEx check to ensure filter only contains a-z, 0-9, and spaces
-        if (!string.IsNullOrEmpty(Name) && !Regex.IsMatch(Name, @"^[a-zA-Z0-9\s]*$"))
+        // RegEx check to ensure filter only contains a-z, 0-9, spaces, and /
+        if (!string.IsNullOrEmpty(Name) && !Regex.IsMatch(Name, @"^[a-zA-Z0-9\s/]*$"))
         {
-            throw new ArgumentException("Name can only contain letters (a-z), numbers (0-9), and spaces.");
+            throw new ArgumentException("Name can only contain letters (a-z), numbers (0-9), spaces, and /.");
         }
         if (EstablishedYear <= 0) throw new ArgumentException("EstablishedYear has to be larger than zero");
         if (!Enum.IsDefined(typeof(MusicGenre), Genre)) throw new ArgumentException("Genre has to be set to a valid value");
@@ -74,13 +74,13 @@ public class AlbumCUdto
 
     public void EnsureValidity()
     {
-        // RegEx check to ensure filter only contains a-z, 0-9, and spaces
-        if (!string.IsNullOrEmpty(Name) && !Regex.IsMatch(Name, @"^[a-zA-Z0-9\s]*$"))
+        // RegEx check to ensure filter only contains a-z, 0-9, spaces, and /
+        if (!string.IsNullOrEmpty(Name) && !Regex.IsMatch(Name, @"^[a-zA-Z0-9\s/]*$"))
         {
-            throw new ArgumentException("Name can only contain letters (a-z), numbers (0-9), and spaces.");
+            throw new ArgumentException("Name can only contain letters (a-z), numbers (0-9), spaces, and /.");
         }
         if (ReleaseYear <= 0) throw new ArgumentException("ReleaseYear has to be larger than zero");
-        if (CopiesSold <= 0) throw new ArgumentException("CopiesSold has to be larger than zero");
+        if (CopiesSold < 0) throw new ArgumentException("CopiesSold has to be zero or larger");
     }
 }
 
@@ -112,14 +112,14 @@ public class ArtistCUdto
 
     public void EnsureValidity()
     {
-        // RegEx check to ensure filter only contains a-z, 0-9, and spaces
-        if (!string.IsNullOrEmpty(FirstName) && !Regex.IsMatch(FirstName, @"^[a-zA-Z0-9\s]*$"))
+        // RegEx check to ensure filter only contains a-z, 0-9, spaces, and /
+        if (!string.IsNullOrEmpty(FirstName) && !Regex.IsMatch(FirstName, @"^[a-zA-Z0-9\s/]*$"))
         {
-            throw new ArgumentException("FirstName can only contain letters (a-z), numbers (0-9), and spaces.");
+            throw new ArgumentException("FirstName can only contain letters (a-z), numbers (0-9), spaces, and /.");
         }
-        if (!string.IsNullOrEmpty(LastName) && !Regex.IsMatch(LastName, @"^[a-zA-Z0-9\s]*$"))
+        if (!string.IsNullOrEmpty(LastName) && !Regex.IsMatch(LastName, @"^[a-zA-Z0-9\s/]*$"))
         {
-            throw new ArgumentException("LastName can only contain letters (a-z), numbers (0-9), and spaces.");
+            throw new ArgumentException("LastName can only contain letters (a-z), numbers (0-9), spaces, and /.");
         }
         if (BirthDay.HasValue)
         {
