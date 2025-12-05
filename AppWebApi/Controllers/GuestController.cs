@@ -14,7 +14,6 @@ namespace AppWebApi.Controllers
     public class GuestController : Controller
     {
         readonly IAdminService _service;
-        readonly ILoginService _loginService;
         readonly ILogger<GuestController> _logger = null;
 
         //GET: api/guest/info
@@ -37,11 +36,9 @@ namespace AppWebApi.Controllers
             }
         }
 
-        public GuestController(IAdminService service, ILoginService loginService,
-                ILogger<GuestController> logger)
+        public GuestController(IAdminService service, ILogger<GuestController> logger)
         {
             _service = service;
-            _loginService = loginService;
             _logger = logger;
         }
     }

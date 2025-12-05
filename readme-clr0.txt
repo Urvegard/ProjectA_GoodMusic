@@ -33,10 +33,7 @@ All applications are using the same software stack
 
    Verify your can execute endpoint Admin/Environment and Guest/Info
 
-5. Use endpoint Admin/SeedUsers to seed users into the the database. 
-   Use Azure Data Studio to verify content in Users Table
-
-6. Use endpoint Admin/Seed to seed the database, Admin/RemoveSeed to remove the seed
+5. Use endpoint Admin/Seed to seed the database, Admin/RemoveSeed to remove the seed
    Verify database seed with endpoint Guest/Info
 
 7. As dbo you can now use and play with all endpoints
