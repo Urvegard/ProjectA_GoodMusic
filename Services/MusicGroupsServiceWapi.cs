@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Net.Http.Json;
+using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO;
 using Models.Interfaces;
@@ -45,26 +46,60 @@ public class MusicGroupsServiceWapi : IMusicGroupsService
     public async Task<ResponseItemDto<IMusicGroup>> ReadMusicGroupAsync(Guid id, bool flat)
     {
         string uri = $"musicgroups/readitem?id={id}&flat={flat}";
+         //Send the HTTP Message and await the response (Read)
+        HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
-        throw new NotImplementedException();
+        //Throw an exception if the response is not successful
+        await response.EnsureSuccessStatusMessage();
+
+        //Get the response data
+        string s = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
+        return resp;
     }
     public async Task<ResponseItemDto<IMusicGroup>> DeleteMusicGroupAsync(Guid id)
     {
         string uri = $"musicgroups/deleteitem/{id}";
+         //Send the HTTP Message and await the response (Delete)
+        HttpResponseMessage response = await _httpClient.DeleteAsync(uri);
 
-        throw new NotImplementedException();
+        //Throw an exception if the response is not successful
+        await response.EnsureSuccessStatusMessage();
+
+        //Get the response data
+        string s = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
+        return resp;
     }
     public async Task<ResponseItemDto<IMusicGroup>> UpdateMusicGroupAsync(MusicGroupCUdto item)
     {
         string uri = $"musicgroups/updateitem/{item.MusicGroupId}";
+        var content = JsonContent.Create(item);
+        //Send the HTTP Message and await the response (Update)
+        HttpResponseMessage response = await _httpClient.PutAsync(uri, content);
+        
+        //Throw an exception if the response is not successful
+        await response.EnsureSuccessStatusMessage();
 
-        throw new NotImplementedException();
+        //Get the response data
+        string s = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
+        return resp;
     }
     public async Task<ResponseItemDto<IMusicGroup>> CreateMusicGroupAsync(MusicGroupCUdto item)
     {
         string uri = $"musicgroups/createitem";
+        var content = JsonContent.Create(item);
+         //Send the HTTP Message and await the response (Create)
+        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        throw new NotImplementedException();
+        //Throw an exception if the response is not successful
+        await response.EnsureSuccessStatusMessage();
+
+        //Get the response data
+        string s = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
+        return resp;
     }
 }
 

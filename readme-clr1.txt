@@ -39,4 +39,4 @@ Running AppRazor using WebApi or Database as source:
 6. Use menu Select datasource to WebApi and see that you can access same data but through the WebApi
    
 NOTE: From AppRazor and AppMvc perspective, the ONLY change is the DataAccess services injected to the DI 
-      This is one of the strength of a well made software stack with loosly couple objects and alyers
+      This is one of the strength of a well made software stack with loosely couple objects and layers
