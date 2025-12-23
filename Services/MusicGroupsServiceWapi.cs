@@ -38,68 +38,50 @@ public class MusicGroupsServiceWapi : IMusicGroupsService
         //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the resonse data
+        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponsePageDto<IMusicGroup>>(s, _jsonSettings);
         return resp;
     }
+
     public async Task<ResponseItemDto<IMusicGroup>> ReadMusicGroupAsync(Guid id, bool flat)
     {
-        string uri = $"musicgroups/readitem?id={id}&flat={flat}";
-         //Send the HTTP Message and await the response (Read)
-        HttpResponseMessage response = await _httpClient.GetAsync(uri);
+        string uri = $"/api/MusicGroups/ReadItemDto?id={id}&flat={flat}";
+        var response = await _httpClient.GetAsync(uri);
 
-        //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
-        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
-        return resp;
+        return JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
     }
     public async Task<ResponseItemDto<IMusicGroup>> DeleteMusicGroupAsync(Guid id)
     {
-        string uri = $"musicgroups/deleteitem/{id}";
-         //Send the HTTP Message and await the response (Delete)
-        HttpResponseMessage response = await _httpClient.DeleteAsync(uri);
-
-        //Throw an exception if the response is not successful
+        string uri = $"/api/MusicGroups/DeleteItem/{id}";
+        var response = await _httpClient.DeleteAsync(uri);
         await response.EnsureSuccessStatusMessage();
-
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
-        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
-        return resp;
+        return JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
     }
-    public async Task<ResponseItemDto<IMusicGroup>> UpdateMusicGroupAsync(MusicGroupCUdto item)
+   public async Task<ResponseItemDto<IMusicGroup>> UpdateMusicGroupAsync(MusicGroupCUdto item)
     {
-        string uri = $"musicgroups/updateitem/{item.MusicGroupId}";
-        var content = JsonContent.Create(item);
-        //Send the HTTP Message and await the response (Update)
-        HttpResponseMessage response = await _httpClient.PutAsync(uri, content);
-        
-        //Throw an exception if the response is not successful
+        string uri = $"/api/MusicGroups/UpdateItem/{item.MusicGroupId}";
+        var response = await _httpClient.PutAsJsonAsync(uri, item);
+
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
-        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
-        return resp;
+        return JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
     }
     public async Task<ResponseItemDto<IMusicGroup>> CreateMusicGroupAsync(MusicGroupCUdto item)
     {
-        string uri = $"musicgroups/createitem";
-        var content = JsonContent.Create(item);
-         //Send the HTTP Message and await the response (Create)
-        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
+        string uri = "/api/MusicGroups/CreateItem";
+        item.MusicGroupId = null;
+        var response = await _httpClient.PostAsJsonAsync(uri, item);
 
-        //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
-        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
-        return resp;
+        return JsonConvert.DeserializeObject<ResponseItemDto<IMusicGroup>>(s, _jsonSettings);
     }
 }
 

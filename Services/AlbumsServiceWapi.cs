@@ -4,6 +4,7 @@ using Models;
 using Models.Interfaces;
 using Models.DTO;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 namespace Services;
 
@@ -38,7 +39,7 @@ public class AlbumsServiceWapi : IAlbumsService
         //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the resonse data
+        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponsePageDto<IAlbum>>(s, _jsonSettings);
         return resp;
@@ -46,26 +47,60 @@ public class AlbumsServiceWapi : IAlbumsService
     public async Task<ResponseItemDto<IAlbum>> ReadAlbumAsync(Guid id, bool flat)
     {
         string uri = $"albums/readitem?id={id}&flat={flat}";
+        //Send the HTTP Message and await the repsonse
+        HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
-        throw new NotImplementedException();
+        //Throw an exception if the response is not successful
+        await response.EnsureSuccessStatusMessage();
+
+        //Get the response data
+        string s = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IAlbum>>(s, _jsonSettings);
+        return resp;
     }
     public async Task<ResponseItemDto<IAlbum>> DeleteAlbumAsync(Guid id)
     {
         string uri = $"albums/deleteitem/{id}";
+        //Send the HTTP Message and await the repsonse
+        HttpResponseMessage response = await _httpClient.DeleteAsync(uri);
 
-        throw new NotImplementedException();
+        //Throw an exception if the response is not successful
+        await response.EnsureSuccessStatusMessage();
+
+        //Get the response data
+        string s = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IAlbum>>(s, _jsonSettings);
+        return resp;
     }
     public async Task<ResponseItemDto<IAlbum>> UpdateAlbumAsync(AlbumCUdto item)
     {
         string uri = $"albums/updateitem/{item.AlbumId}";
+        var content = JsonContent.Create(item);
+        //Send the HTTP Message and await the repsonse
+        HttpResponseMessage response = await _httpClient.PutAsync(uri, content);
 
-        throw new NotImplementedException();
+        //Throw an exception if the response is not successful
+        await response.EnsureSuccessStatusMessage();
+
+        //Get the response data
+        string s = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IAlbum>>(s, _jsonSettings);
+        return resp;
     }
     public async Task<ResponseItemDto<IAlbum>> CreateAlbumAsync(AlbumCUdto item)
     {
         string uri = $"albums/createitem";
+        var content = JsonContent.Create(item);
+        //Send the HTTP Message and await the repsonse
+        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        throw new NotImplementedException();
+        //Throw an exception if the response is not successful
+        await response.EnsureSuccessStatusMessage();
+
+        //Get the response data
+        string s = await response.Content.ReadAsStringAsync();
+        var resp = JsonConvert.DeserializeObject<ResponseItemDto<IAlbum>>(s, _jsonSettings);
+        return resp;
     }
 }
 
