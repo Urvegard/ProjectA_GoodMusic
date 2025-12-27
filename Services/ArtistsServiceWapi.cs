@@ -39,21 +39,23 @@ public class ArtistsServiceWapi : IArtistsService
         //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the resonse data
+        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponsePageDto<IArtist>>(s, _jsonSettings);
         return resp;
     }
     public async Task<ResponseItemDto<IArtist>> ReadArtistAsync(Guid id, bool flat)
     {
+        //Vilken endpoint man tittar på
         string uri = $"artists/readitem?id={id}&flat={flat}";
-        //Send the HTTP Message and await the repsonse
+
+        //Skickar HTTP meddelande och inväntar svaret
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
-        //Throw an exception if the response is not successful
+        //Kastar en 'exception' om svaret inte går igenom/misslyckas
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
+        //Hämtar datan i response
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseItemDto<IArtist>>(s, _jsonSettings);
         return resp;
@@ -61,13 +63,11 @@ public class ArtistsServiceWapi : IArtistsService
     public async Task<ResponseItemDto<IArtist>> DeleteArtistAsync(Guid id)
     {
         string uri = $"artists/deleteitem/{id}";
-        //Send the HTTP Message and await the repsonse
+        
         HttpResponseMessage response = await _httpClient.DeleteAsync(uri);
 
-        //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseItemDto<IArtist>>(s, _jsonSettings);
         return resp;
@@ -76,13 +76,11 @@ public class ArtistsServiceWapi : IArtistsService
     {
         string uri = $"artists/updateitem/{item.ArtistId}";
         var content = JsonContent.Create(item);
-        //Send the HTTP Message and await the repsonse
+    
         HttpResponseMessage response = await _httpClient.PutAsync(uri, content);
 
-        //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseItemDto<IArtist>>(s, _jsonSettings);
         return resp;
@@ -91,13 +89,11 @@ public class ArtistsServiceWapi : IArtistsService
     {
         string uri = $"artists/createitem";
         var content = JsonContent.Create(item);
-        //Send the HTTP Message and await the repsonse
+
         HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseItemDto<IArtist>>(s, _jsonSettings);
         return resp;

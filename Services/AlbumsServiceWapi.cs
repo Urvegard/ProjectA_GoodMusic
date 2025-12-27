@@ -46,14 +46,16 @@ public class AlbumsServiceWapi : IAlbumsService
     }
     public async Task<ResponseItemDto<IAlbum>> ReadAlbumAsync(Guid id, bool flat)
     {
+        //Vilken endpoint man tittar på
         string uri = $"albums/readitem?id={id}&flat={flat}";
-        //Send the HTTP Message and await the repsonse
+
+        //Skickar HTTP meddelande och inväntar svaret
         HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
-        //Throw an exception if the response is not successful
+        //Kastar en 'exception' om svaret inte går igenom/misslyckas
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
+        //Hämtar datan i response
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseItemDto<IAlbum>>(s, _jsonSettings);
         return resp;
@@ -61,13 +63,10 @@ public class AlbumsServiceWapi : IAlbumsService
     public async Task<ResponseItemDto<IAlbum>> DeleteAlbumAsync(Guid id)
     {
         string uri = $"albums/deleteitem/{id}";
-        //Send the HTTP Message and await the repsonse
+        
         HttpResponseMessage response = await _httpClient.DeleteAsync(uri);
-
-        //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseItemDto<IAlbum>>(s, _jsonSettings);
         return resp;
@@ -76,13 +75,10 @@ public class AlbumsServiceWapi : IAlbumsService
     {
         string uri = $"albums/updateitem/{item.AlbumId}";
         var content = JsonContent.Create(item);
-        //Send the HTTP Message and await the repsonse
+        
         HttpResponseMessage response = await _httpClient.PutAsync(uri, content);
-
-        //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseItemDto<IAlbum>>(s, _jsonSettings);
         return resp;
@@ -91,13 +87,10 @@ public class AlbumsServiceWapi : IAlbumsService
     {
         string uri = $"albums/createitem";
         var content = JsonContent.Create(item);
-        //Send the HTTP Message and await the repsonse
+        
         HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
-
-        //Throw an exception if the response is not successful
         await response.EnsureSuccessStatusMessage();
 
-        //Get the response data
         string s = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseItemDto<IAlbum>>(s, _jsonSettings);
         return resp;
